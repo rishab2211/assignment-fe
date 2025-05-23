@@ -7,7 +7,8 @@ import { signOut } from "next-auth/react";
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
   weight: ["400", "700"],
-  subsets: ["latin","latin-ext","vietnamese"],
+  subsets: ["latin", "latin-ext", "vietnamese"],
+  preload: false,
 });
 
 type NavItem = {
@@ -15,8 +16,6 @@ type NavItem = {
   link: string;
   icon?: JSX.Element;
 };
-
-
 
 export const FloatingNav = ({
   navItems,
@@ -45,7 +44,10 @@ export const FloatingNav = ({
           <span className="text-sm">{navItem.name}</span>
         </a>
       ))}
-      <button onClick={()=>signOut()} className="border cursor-pointer text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
+      <button
+        onClick={() => signOut()}
+        className="border cursor-pointer text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full"
+      >
         <span>Logout</span>
         <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent  h-px" />
       </button>

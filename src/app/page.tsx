@@ -33,7 +33,7 @@ export default function Page() {
             now.
           </p>
 
-          <form className="my-8">
+          <form className="my-8" onSubmit={handleSubmit}>
             <LabelInputContainer className="mb-4">
               <Label htmlFor="email" className="text-zinc-300">
                 Email Address

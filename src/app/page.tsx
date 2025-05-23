@@ -1,103 +1,123 @@
-import Image from "next/image";
+"use client";
+import React, { useEffect } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { IconBrandGoogle } from "@tabler/icons-react";
+import { signIn, useSession } from "next-auth/react";
+import { DotBackground } from "@/components/ui/dotBackground";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function Page() {
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session.data?.user) {
+      router.push("/dashboard");
+    }
+  }, [session, router]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Form submitted");
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <DotBackground>
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+        <div className="shadow-2xl mx-auto w-full max-w-md rounded-2xl bg-zinc-900 border border-zinc-800 p-8">
+          <h2 className="text-2xl font-bold text-white">Welcome to pizza.ai</h2>
+          <p className="mt-2 max-w-sm text-sm text-zinc-400">
+            Login to order your favourite, delicious pizza at the best price
+            now.
+          </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          <form className="my-8">
+            <LabelInputContainer className="mb-4">
+              <Label htmlFor="email" className="text-zinc-300">
+                Email Address
+              </Label>
+              <Input
+                id="email"
+                placeholder="projectmayhem@fc.com"
+                type="email"
+                className="bg-zinc-800 border-zinc-700 text-white placeholder-zinc-500 focus:border-cyan-500 focus:ring-cyan-500"
+              />
+            </LabelInputContainer>
+            <LabelInputContainer className="mb-4">
+              <Label htmlFor="password" className="text-zinc-300">
+                Password
+              </Label>
+              <Input
+                id="password"
+                placeholder="••••••••"
+                type="password"
+                className="bg-zinc-800 border-zinc-700 text-white placeholder-zinc-500 focus:border-cyan-500 focus:ring-cyan-500"
+              />
+            </LabelInputContainer>
+            <LabelInputContainer className="mb-8">
+              <Label htmlFor="twitterpassword" className="text-zinc-300">
+                Your twitter password
+              </Label>
+              <Input
+                id="twitterpassword"
+                placeholder="••••••••"
+                type="password"
+                className="bg-zinc-800 border-zinc-700 text-white placeholder-zinc-500 focus:border-cyan-500 focus:ring-cyan-500"
+              />
+            </LabelInputContainer>
+            <button
+              className="group/btn relative block h-12 w-full rounded-md bg-gradient-to-br from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 font-medium text-white shadow-lg transition-all duration-200 transform hover:scale-[1.02]"
+              type="submit"
+            >
+              Sign up &rarr;
+              <BottomGradient />
+            </button>
+
+            <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
+
+            <div className="flex flex-col space-y-4">
+              <button
+                className="group/btn relative flex h-12 w-full items-center justify-start space-x-2 rounded-md bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 px-4 font-medium text-white transition-all duration-200"
+                type="button"
+                onClick={async () => {
+                  await signIn("google");
+                }}
+              >
+                <IconBrandGoogle className="h-5 w-5 text-zinc-300" />
+                <span className="text-sm text-zinc-300">
+                  Continue with Google
+                </span>
+                <BottomGradient />
+              </button>
+            </div>
+          </form>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </DotBackground>
   );
 }
+
+const BottomGradient = () => {
+  return (
+    <>
+      <span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
+      <span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
+    </>
+  );
+};
+
+const LabelInputContainer = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn("flex w-full flex-col space-y-2", className)}>
+      {children}
+    </div>
+  );
+};

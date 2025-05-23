@@ -32,6 +32,13 @@ export default function Page() {
             Login to order your favourite, delicious pizza at the best price
             now.
           </p>
+          <p className="mt-2 max-w-sm text-sm text-zinc-400">
+            <strong>NOTE</strong>: Please log in using{" "}
+            <strong>
+              <i>Google only</i>
+            </strong>
+            , as login with credentials has not been implemented yet.
+          </p>
 
           <form className="my-8" onSubmit={handleSubmit}>
             <LabelInputContainer className="mb-4">
@@ -40,7 +47,7 @@ export default function Page() {
               </Label>
               <Input
                 id="email"
-                placeholder="projectmayhem@fc.com"
+                placeholder="rishabraj2211@gmail.com"
                 type="email"
                 className="bg-zinc-800 border-zinc-700 text-white placeholder-zinc-500 focus:border-cyan-500 focus:ring-cyan-500"
               />

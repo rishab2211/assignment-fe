@@ -7,7 +7,7 @@ import { signOut } from "next-auth/react";
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
   weight: ["400", "700"],
-  subsets: ["latin"],
+  subsets: ["latin","latin-ext","vietnamese"],
 });
 
 type NavItem = {
